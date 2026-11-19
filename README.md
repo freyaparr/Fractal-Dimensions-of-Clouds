@@ -6,6 +6,7 @@ In Terminal
 Run: curl -fsSL https://install.julialang.org | sh
 Then run: source ~/.bashrc
 And check again: julia --version
+RUN julia 
 
 For the Packages required in the code:
 Run: julia -e 'using Pkg; Pkg.add(["NCDatasets", "FractalDimensions", "ClimateBase", "ComplexityMeasures", "CairoMakie", "Distances"])'
