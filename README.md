@@ -14,7 +14,7 @@ Finally to run a file:
 First run: cd "FOLDERNAME THE FILE IS IN"
 e.g cd "Radiative Scaling"
 Then run: julia "filename"
-e.g julia "Updated Radiative Scaling - Botany data.jl"
+e.g julia "Radiative Scaling.jl"
 
 MAKE SURE TO COMMIT AFTER SESSION
 To commit:
