@@ -5,7 +5,7 @@ using CairoMakie
 using Distances: Euclidean
 
 # Botany data - Load the botany dataset using the file path on your computer
-filename = raw"/workspaces/Radiative-Scaling-Code/dales_radiation_rlut_data.nc"
+filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_data.nc"
 
 file = filename
 data = ncread(file, "rlut")
