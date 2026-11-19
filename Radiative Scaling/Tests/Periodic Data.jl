@@ -1,3 +1,9 @@
+
+
+#FIX NEEDED AT APPROX LINE 48-50 (TEXT IN CAPITAL)
+
+
+
 using NCDatasets
 using FractalDimensions, ClimateBase, ComplexityMeasures
 using Dates: hour
