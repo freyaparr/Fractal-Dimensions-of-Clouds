@@ -9,7 +9,7 @@ And check again: julia --version
 RUN julia 
 
 For the Packages required in the code:
-Run: julia -e 'using Pkg; Pkg.add(["NCDatasets", "FractalDimensions", "ClimateBase", "ComplexityMeasures", "CairoMakie", "Distances"])'
+Run: julia -e 'using Pkg; Pkg.add(["NCDatasets", "FractalDimensions", "ClimateBase", "ComplexityMeasures", "CairoMakie", "Distances", "IJulia", "FFTW"])'
 
 Finally to run a file:
 First run: cd "FOLDERNAME THE FILE IS IN"
