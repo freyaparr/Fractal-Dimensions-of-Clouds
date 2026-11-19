@@ -3,6 +3,7 @@ using FractalDimensions, ClimateBase, ComplexityMeasures
 using Dates: hour
 using CairoMakie
 using Distances: Euclidean
+using Statistics: mean
 
 # Botany data - Load the botany dataset using the file path on your computer
 filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_data.nc"
@@ -67,8 +68,6 @@ for i in 5:100
 end
 
 # %% Plot and compute FD
-using Statistics: mean
-
 δΦs = δΦsum ./ counts
 midpoints = (ks[1:end-1] + ks[2:end])/2
 
