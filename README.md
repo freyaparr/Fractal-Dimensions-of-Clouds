@@ -21,4 +21,5 @@ To commit:
 git add .
 git commit -m "description of changes"
 git push origin main
+EASIER METHOD: 
 You can also go to the little graph icon on the left and add the files you want to commit, type in the commit note and then click the button saying commit. (If you have uncommited changes it should come up with a little number in the bottom right corner of the icon).
