@@ -67,10 +67,13 @@ Nsample = 10000
 for i in 5:100
     samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
     for (i, j, i2, j2) in samples
+        #new distance calculation that takes into accoiunt periodic data
+        #(basically instead of 150km and 2km being 148km away, they're now only like 5km away)
+        #picking which distance option is shortest 
+        Δx = min(abs(x[i2]-x[i]), Lx-abs(x[i2]-x[i]))
+        Δy = min(abs(y[j2]-y[j]), Ly-abs(y[j2]-y[j]))
         # distance in kilometers
-        distance = euclidean(
-        (x[i], y[j]),
-        (x[i2], y[j2]) ) /1000
+        distance = euclidean((0, 0), (Δx, Δy)) / 1000
 
         bin_index = encode(encoding, distance)
         bin_index == -1 && continue # distance that doesn't fall into any bin
