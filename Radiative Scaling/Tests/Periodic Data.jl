@@ -17,6 +17,13 @@ filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_dat
 file = filename
 data = ncread(file, "rlut")
 x, y = dims(data)
+#grid spacing (in m)
+dx = x[2] - x[1]
+dy = y[2] - y[1]
+#total length of data in metres
+#(we do know this from the report but this makes for better reproducibility if we use other data)
+Lx = length(x) *dx
+Ly = length(y) *dy
 
 times = NCDataset(file)["time"][]
 hours = hour(times)
