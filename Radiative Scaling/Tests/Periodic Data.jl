@@ -51,6 +51,10 @@ function disc_sampling(x,y,R)
     x2 = x[i] + radius * cos(θ)
     y2 = y[j] + radius * sin(θ)
 
+    #wrap the points
+    x2 = mod(x2, Lx)
+    y2 = mod(y2, Ly) #this is simpler than using an if >Lx subtraction thing
+
     # Find the nearest grid indices
     ## I THINK ITS THIS BIT THAT NEEDS CHANGING POSSIBLY (might be other bits too)
     i2 = argmin(abs.(x .- x2))
