@@ -101,9 +101,9 @@ ax2.xscale = log10
 ax2.yscale = log10
 #xlims!(ax2, 10^1.1, 10^1.9)
 
-ax.title = "slope = "*string(Δ)
+ax.title = "Slope = "*string(Δ)
 ax2.xlabel = "r [km]"
 ax.ylabel = "δΦ [W/m²]"
-ax2.ylabel = "counts"
+ax2.ylabel = "Counts"
 
 save("RadScal_graph.png", fig)
