@@ -11,6 +11,13 @@ filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_dat
 file = filename
 data = ncread(file, "rlut")
 x, y = dims(data)
+#grid spacing (in m)
+dx = x[2] - x[1]
+dy = y[2] - y[1]
+#total length of data in metres
+#(we do know this from the report but this makes for better reproducibility if we use other data)
+Lx = length(x) *dx
+Ly = length(y) *dy
 
 times = NCDataset(file)["time"][]
 hours = hour(times)
@@ -38,7 +45,12 @@ function disc_sampling(x,y,R)
     x2 = x[i] + radius * cos(θ)
     y2 = y[j] + radius * sin(θ)
 
+    #wrap the points
+    x2 = mod(x2, Lx)
+    y2 = mod(y2, Ly) #this is simpler than using an if >Lx subtraction thing
+
     # Find the nearest grid indices
+    ## I THINK ITS THIS BIT THAT NEEDS CHANGING POSSIBLY (might be other bits too)
     i2 = argmin(abs.(x .- x2))
     j2 = argmin(abs.(y .- y2))
     return i, j, i2, j2
@@ -49,10 +61,13 @@ Nsample = 10000
 for i in 5:100
     samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
     for (i, j, i2, j2) in samples
+        #new distance calculation that takes into accoiunt periodic data
+        #(basically instead of 150km and 2km being 148km away, they're now only like 5km away)
+        #picking which distance option is shortest 
+        Δx = min(abs(x[i2]-x[i]), Lx-abs(x[i2]-x[i]))
+        Δy = min(abs(y[j2]-y[j]), Ly-abs(y[j2]-y[j]))
         # distance in kilometers
-        distance = euclidean(
-        (x[i], y[j]),
-        (x[i2], y[j2]) ) /1000
+        distance = euclidean((0, 0), (Δx, Δy)) / 1000
 
         bin_index = encode(encoding, distance)
         bin_index == -1 && continue # distance that doesn't fall into any bin
@@ -72,9 +87,10 @@ end
 midpoints = (ks[1:end-1] + ks[2:end])/2
 
 Δ, Δ05, Δ95 = slopefit(log10.(midpoints), log10.(δΦs), LinearRegression())
-
+#intercept of the line with gradient Δ
+intercept = mean(log10.(δΦs)) - Δ * mean(log10.(midpoints))
 fig, ax, obj = lines(midpoints, δΦs)
-lines!(ax, midpoints, minimum(δΦs) .* (midpoints .^ Δ); linestyle = :dash)
+lines!(ax, midpoints, 10 .^(intercept .+ Δ .* log10.(midpoints)); linestyle = :dash)
 ax.xscale = log10
 ax.yscale = log10
 #xlims!(ax, 10, 10^1.9)
