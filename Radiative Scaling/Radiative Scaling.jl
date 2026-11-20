@@ -50,7 +50,6 @@ function disc_sampling(x,y,R)
     y2 = mod(y2, Ly) #this is simpler than using an if >Lx subtraction thing
 
     # Find the nearest grid indices
-    ## I THINK ITS THIS BIT THAT NEEDS CHANGING POSSIBLY (might be other bits too)
     i2 = argmin(abs.(x .- x2))
     j2 = argmin(abs.(y .- y2))
     return i, j, i2, j2
