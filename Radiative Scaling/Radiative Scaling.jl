@@ -102,7 +102,9 @@ ax2.yscale = log10
 
 ax.title = "ζ₂ = "*string(Δ)
 ax2.xlabel = "r [km]"
-ax.ylabel = "δΦ [W/m²]"
+ax.ylabel = "S₂(r)\ [(Wm^-2)^2].
+\]"
 ax2.ylabel = "Counts"
 
 save("RadScal_graph.png", fig)
+
