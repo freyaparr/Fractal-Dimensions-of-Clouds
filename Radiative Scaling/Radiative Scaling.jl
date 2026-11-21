@@ -86,7 +86,7 @@ end
 midpoints = (ks[1:end-1] + ks[2:end])/2
 
 Δ, Δ05, Δ95 = slopefit(log10.(midpoints), log10.(δΦs), LinearRegression())
-#intercept of the line with gradient Δ
+#intercept of the line with gradient Δ which is the scaling exponent
 intercept = mean(log10.(δΦs)) - Δ * mean(log10.(midpoints))
 fig, ax, obj = lines(midpoints, δΦs)
 lines!(ax, midpoints, 10 .^(intercept .+ Δ .* log10.(midpoints)); linestyle = :dash)
@@ -100,7 +100,7 @@ ax2.xscale = log10
 ax2.yscale = log10
 #xlims!(ax2, 10^1.1, 10^1.9)
 
-ax.title = "Slope = "*string(Δ)
+ax.title = "ζ₂ = "*string(Δ)
 ax2.xlabel = "r [km]"
 ax.ylabel = "δΦ [W/m²]"
 ax2.ylabel = "Counts"
