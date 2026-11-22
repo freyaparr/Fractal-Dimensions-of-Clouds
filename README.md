@@ -16,6 +16,8 @@ First run: cd "FOLDERNAME THE FILE IS IN"
 e.g cd "Radiative Scaling"
 Then run: julia --project=.. "filename"
 e.g julia --project=.. "Radiative Scaling.jl"
+IMPORTANT 
+this command is a bit funky to be able to use the packages in the main folder so ".." after the = indicates its one folder down from main if you want say a test folder within radiative scaling use "../.." etc etc
 
 MAKE SURE TO COMMIT AFTER SESSION
 To commit:

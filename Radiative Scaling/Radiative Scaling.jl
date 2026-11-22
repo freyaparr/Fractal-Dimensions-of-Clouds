@@ -6,7 +6,7 @@ using Distances: Euclidean
 using Statistics: mean
 
 # Botany data - Load the botany dataset using the file path on your computer
-filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_data.nc"
+filename = raw"/workspaces/Fractal-Dimensions-of-Clouds/Data/dales_radiation_rlut_data.nc"
 
 file = filename
 data = ncread(file, "rlut")
@@ -55,7 +55,7 @@ function disc_sampling(x,y,R)
     return i, j, i2, j2
 end
 
-Nsample = 10000
+Nsample = 1000
 
 for i in 5:100
     samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
