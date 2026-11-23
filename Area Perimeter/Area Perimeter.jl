@@ -1,7 +1,16 @@
 using NCDatasets,CairoMakie #nc datasets is used to get data - moved from python to julia
 
-botanyFile = "/workspaces/Fractal-Dimensions-of-Clouds/dales_radiation_rlut_data.nc"
-ds = NCDataset(botanyFile)
+
+
+## converts pixel data into a cloud or not a cloud 
+function makeMask(field, threshold; below=true)
+    if below
+        return field .< threshold #used if temp
+    else
+        return field .> threshold #used if light
+    end
+end
+
 
 ## this section splits clouds up so we end up finding the area and perimetre of individual clouds rather than a conglomerate
 function splitClouds(mask)
@@ -133,6 +142,9 @@ function getD(AreaList,perimetreList)
     return fractalDimension,intercept
 end
 
+
+botanyFile = "/Users/barneywelford/botany_2D_30.nc"
+ds = NCDataset(botanyFile)
 
 fieldArray = Matrix{Matrix{Float64}}(undef, 5, 6)
 for i in 1:5
