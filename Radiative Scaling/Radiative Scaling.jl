@@ -55,7 +55,7 @@ function disc_sampling(x,y,R)
     return i, j, i2, j2
 end
 
-Nsample = 1000
+Nsample = 10000
 
 for i in 5:100
     samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
