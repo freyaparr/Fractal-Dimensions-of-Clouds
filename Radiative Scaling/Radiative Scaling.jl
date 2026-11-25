@@ -57,7 +57,7 @@ end
 
 Nsample = 10000
 
-for i in 5:100
+for i in 1:150
     samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
     for (i, j, i2, j2) in samples
         #new distance calculation that takes into accoiunt periodic data
@@ -73,7 +73,7 @@ for i in 5:100
 
         Φ1 = data[i, j]
         Φ2 = data[i2, j2]
-        δΦ = abs2(Φ1 - Φ2)
+        δΦ = abs2(Φ1 - Φ2) #try with different exponents
 
         ismissing(δΦ) && continue
         δΦsum[bin_index] += δΦ
