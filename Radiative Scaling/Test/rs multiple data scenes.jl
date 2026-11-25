@@ -53,15 +53,16 @@ end
 
 time_indices = 1:1:60
 exponents = zeros(length(time_indices)) #this is to store the scaling expontents zeta_2 we get at each time frame
-Nsample = 1000
+Nsample = 10000
+#more efficient sampling so we dont generate new pairs for every member
+all_samples = [[disc_sampling(x,y,i) for _ in 1:Nsample] for i in 1:150]
 
 #basically chuck the code we had for the individual scene into a loop through each time (1 to 60)
 for (k, t) in enumerate(time_indices)
     δΦsum .= 0
     counts .= 0
 
-    for i in 5:100
-        samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
+    for samples in all_samples
         for (i, j, i2, j2) in samples
             #new distance calculation that takes into accoiunt periodic data
             #(basically instead of 150km and 2km being 148km away, they're now only like 5km away)
@@ -79,6 +80,7 @@ for (k, t) in enumerate(time_indices)
             δΦ = abs2(Φ1 - Φ2)
 
             ismissing(δΦ) && continue
+            isnan(δΦ) && continue
             δΦsum[bin_index] += δΦ
             counts[bin_index] += 1
         end

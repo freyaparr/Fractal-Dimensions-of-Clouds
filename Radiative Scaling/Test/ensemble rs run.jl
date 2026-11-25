@@ -55,10 +55,16 @@ function disc_sampling(x,y,R)
     return i, j, i2, j2
 end
 
+exponents = zeros(103)
 Nsample = 10000
+#more efficient sampling so we dont generate new pairs for every member
+all_samples = [[disc_sampling(x,y,i) for _ in 1:Nsample] for i in 1:150]
 
-for i in 1:150
-    samples = [disc_sampling(x,y,i) for _ in 1:Nsample]
+for m in 1:103
+    δΦsum .= 0
+    counts .= 0
+
+    for samples in all_samples
     for (i, j, i2, j2) in samples
         #new distance calculation that takes into accoiunt periodic data
         #(basically instead of 150km and 2km being 148km away, they're now only like 5km away)
@@ -71,39 +77,27 @@ for i in 1:150
         bin_index = encode(encoding, distance)
         bin_index == -1 && continue # distance that doesn't fall into any bin
 
-        Φ1 = data[i, j]
-        Φ2 = data[i2, j2]
+        Φ1 = data[i, j, m]
+        Φ2 = data[i2, j2, m]
         δΦ = abs2(Φ1 - Φ2) #try with different exponents
 
         ismissing(δΦ) && continue
+        isnan(δΦ) && continue
         δΦsum[bin_index] += δΦ
         counts[bin_index] += 1
     end
 end
 
-# %% Plot and compute FD
-δΦs = δΦsum ./ counts
-midpoints = (ks[1:end-1] + ks[2:end])/2
+    δΦs = δΦsum ./ counts
+    midpoints = (ks[1:end-1] + ks[2:end]) / 2
+    Δ, Δ05, Δ95 = slopefit(log10.(midpoints), log10.(δΦs), LinearRegression())
+    exponents[m] = Δ
+end
 
-Δ, Δ05, Δ95 = slopefit(log10.(midpoints), log10.(δΦs), LinearRegression())
-#intercept of the line with gradient Δ which is the scaling exponent
-intercept = mean(log10.(δΦs)) - Δ * mean(log10.(midpoints))
-fig, ax, obj = lines(midpoints, δΦs)
-lines!(ax, midpoints, 10 .^(intercept .+ Δ .* log10.(midpoints)); linestyle = :dash)
-ax.xscale = log10
-ax.yscale = log10
-#xlims!(ax, 10, 10^1.9)
+# %% Plot scaling exponents
+fig = Figure()
+ax = Axis(fig[1,1], xlabel = "Ensemble Member", ylabel = "Scaling Exponent ζ₂", title = "Radiative Scaling Across Ensemble Members")
+scatter!(ax, 1:103, exponents)
 
-# also plot the colletced point density, to see how well our sampling strategy covers distance bins
-ax2, obj = barplot(fig[2,1], midpoints, counts; width = diff(ks))
-ax2.xscale = log10
-ax2.yscale = log10
-#xlims!(ax2, 10^1.1, 10^1.9)
-
-ax.title = "ζ₂ = "*string(Δ)
-ax2.xlabel = "r [km]"
-ax.ylabel = "S₂(r)[(Wm⁻²)²]."
-ax2.ylabel = "Counts"
-
-save("RadScal_graph.png", fig)
+save("Ensemble_RadScal_graph.png", fig)
 
