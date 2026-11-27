@@ -202,7 +202,7 @@ function plotFracDim(aList,pList,intercept,fracDim)#plots the data, as well as u
     ax = Axis(fig[1,1],title = "Log Area against Log Perimeter",xlabel = "Log Area",ylabel = "Log Perimeter")
     scatter!(ax,aLogs,pLogs, color = (:green, 0.2), markersize = 12)
     lines!(ax,xArr,yArr, color = (:black, 0.8))
-    fig
+    save("Area_Perimeter.png", fig)
 
 end
 
