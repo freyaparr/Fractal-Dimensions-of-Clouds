@@ -22,7 +22,7 @@ euclidean = Euclidean()
 
 # %%
 # range of distances in km units
-ks = 10 .^ (1:0.05:2) # equispaced exponentially
+ks = 10 .^ (0:0.1:2) # equispaced exponentially
 #ks = :0.5:150 # equispaced linearly
 encoding = RectangularBinEncoding(FixedRectangularBinning(ks, 1, true))
 δΦsum = zeros(length(ks) - 1)

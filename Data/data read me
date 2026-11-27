@@ -1,1 +1,1 @@
-Since the data files are massive they cant be git commited and are not in the repository we either need to fix this so that every codespace opened auto installs all the data we need or jsut do it manually
+Since the data files are massive they cant be git commited and are not in the repository we either need to fix this so that every codespace opened auto installs all the data we need or just do it manually
